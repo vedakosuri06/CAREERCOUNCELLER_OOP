@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+        </div>
+
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+                <li><a th:href="@{/home}">START TEST</a></li>
+            </ul>
+
+        </div>
+        
+
+    </nav>
+     <div class="quiz-card">
+    <span class="question-number">Question 4</span>
+    <p class="question-text">How comfortable are you with mathematics (calculus, linear algebra, probability)?</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q4" value="A">
+        <span>A. I love using it to train models</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q4" value="B">
+        <span>B. I use it when needed</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q4" value="C">
+        <span>C.I try to avoid deep math</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q4" value="D">
+        <span>D. I enjoy studying mathematical theory</span>
+      </label>
+      <a th:href="@{/q5}">
+        <button class="next">NEXT</button>
+      </a>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+
+    

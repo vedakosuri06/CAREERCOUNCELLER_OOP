@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+<h1>Quiz Result</h1>
+<p>Suggested Career: <span th:text="${career}"></span></p>
+<p>Option Counts:</p>
+<ul>
+    <li>A: <span th:text="${countA}"></span></li>
+    <li>B: <span th:text="${countB}"></span></li>
+    <li>C: <span th:text="${countC}"></span></li>
+    <li>D: <span th:text="${countD}"></span></li>
+</ul>
+<a href="/quiz">Take Quiz Again</a>
+</body>
+</html>

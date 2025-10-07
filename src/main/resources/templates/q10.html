@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+        </div>
+
+        <div class="nav-right">
+             <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+                <li><a th:href="@{/home}">START TEST</a></li>
+            </ul>
+
+        </div>
+        
+
+    </nav>
+     <div class="quiz-card">
+    <span class="question-number">Question 10</span>
+    <p class="question-text"> Your ideal working environment is:</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q10" value="A">
+        <span>A.Fast-paced startup solving AI problems</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q10" value="B">
+        <span>B. Analytics team in a business or bank</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q10" value="C">
+        <span>C.Software company focusing on backend services</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q10" value="D">
+        <span>D.University or research lab</span>
+      </label>
+     <a th:href="@{/result}">
+    <button class="next">NEXT</button>
+</a>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+
+    

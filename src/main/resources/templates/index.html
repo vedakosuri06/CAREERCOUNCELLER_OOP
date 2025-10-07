@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+<link rel="stylesheet" href="/css/home.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+          <img th:src="@{/images/logo.png}" alt="Logo">
+        </div>
+
+        <div class="nav-right">
+             <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+            </ul>
+            <a th:href="@{/home}"> <button class="start">START TEST</button></a>
+
+        </div>
+        
+
+    </nav>
+    <section class="hero">
+    <h1>
+      Discover Your <br>
+      <span>True Potential</span>
+    </h1>
+    <p>
+      Take this personality test to identify your ideal career path, 
+      helping you make better decisions in your career, and personal growth.
+    </p>
+    <a th:href="@{/starttest}">
+  <button id="startBtn">START TEST</button>
+</a>
+  </section>
+
+</body>
+</html>
+
+    

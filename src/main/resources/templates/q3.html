@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+        </div>
+
+        <div class="nav-right">
+             <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+                <li><a th:href="@{/home}">START TEST</a></li>
+            </ul>
+
+        </div>
+        
+
+    </nav>
+     <div class="quiz-card">
+    <span class="question-number">Question 3</span>
+    <p class="question-text"> Which tool or library do you enjoy using most?</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q3" value="A">
+        <span>A.TensorFlow / PyTorch</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="B">
+        <span>B. Pandas / Tableau</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="C">
+        <span>C.Node.js / Django</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="D">
+        <span>D. LaTeX / Google Scholar</span>
+      </label>
+      <a th:href="@{/q4}">
+        <button class="next">NEXT</button>
+      </a>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+
+    

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+        </div>
+
+        <div class="nav-right">
+             <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+                <li><a th:href="@{/home}">START TEST</a></li>
+            </ul>
+
+        </div>
+        
+
+    </nav>
+     <div class="quiz-card">
+    <span class="question-number">Question 9</span>
+    <p class="question-text"> You would prefer to attend a workshop on:</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q9" value="A">
+        <span>A.Advanced Deep Learning</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="B">
+        <span>B.Power BI and Dashboard Design</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="C">
+        <span>C.Backend Development with FastAPI</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="D">
+        <span>D.Research Methodology and Ethics</span>
+      </label>
+      <a th:href="@{/q10}">
+    <button class="next">NEXT</button>
+</a>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+
+    

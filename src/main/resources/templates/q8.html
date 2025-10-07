@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAREER COUNSELLOR</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+    <script src="/js/script.js"></script>
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="nav-left">
+            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+        </div>
+
+        <div class="nav-right">
+            <ul class="menu">
+                <li><a th:href="@{/home}">HOME</a></li>
+                <li><a th:href="@{/home}">START TEST</a></li>
+            </ul>
+
+        </div>
+        
+
+    </nav>
+     <div class="quiz-card">
+    <span class="question-number">Question 8</span>
+    <p class="question-text">In a team project, you usually:</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q8" value="A">
+        <span>A.Handle the model training and tuning</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q8" value="B">
+        <span>B.Do data wrangling and feature analysis</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q8" value="C">
+        <span>C.Handle deployment and backend</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q8" value="D">
+        <span>D.Contribute to documentation, evaluation, or literature review</span>
+      </label>
+    <a th:href="@{/q9}">
+    <button class="next">NEXT</button>
+</a>
+    </div>
+  </div>
+  
+
+
+</body>
+</html>
+
+    
