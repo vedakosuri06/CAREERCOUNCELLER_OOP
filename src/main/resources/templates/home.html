@@ -8,34 +8,34 @@
     <script src="/js/script.js"></script>
 </head>
 <body>
-
-    <!-- Navigation Bar -->
+    
     <nav class="navbar">
         <div class="nav-left">
-            <img th:src="@{/images/logo.png}" alt="Logo">
+          <img th:src="@{/images/logo.png}" alt="Logo">
         </div>
 
         <div class="nav-right">
-            <ul class="menu">
+             <ul class="menu">
                 <li><a th:href="@{/home}">HOME</a></li>
             </ul>
-            <!-- Start Test Button -->
-            <a th:href="@{/starttest}" class="start">START TEST</a>
+            <!-- ✅ fixed href -->
+            <a th:href="@{/startTest}"><button class="start">START TEST</button></a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <h1>
             Discover Your <br>
             <span>True Potential</span>
         </h1>
         <p>
-            Take this personality test to identify your ideal career path,
-            helping you make better decisions in your career and personal growth.
+            Take this personality test to identify your ideal career path, 
+            helping you make better decisions in your career, and personal growth.
         </p>
-        <!-- Another Start Test Button -->
-        <a th:href="@{/starttest}" class="start" id="startBtn">START TEST</a>
+        <!-- ✅ fixed href -->
+        <a th:href="@{/startTest}">
+            <button id="startBtn">START TEST</button>
+        </a>
     </section>
 
 </body>

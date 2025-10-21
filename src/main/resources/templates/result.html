@@ -1,106 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/result.css">
-
-</head>
-  <div class="card">
-    <h2>Get Your Career Path</h2>
-    <style>
-      .btn { background:#8259d4; color:#fff; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:700; }
-      .btn:disabled { opacity:0.6; cursor:not-allowed; }
-      #result { margin-top:18px; font-size:18px; }
-      .small { color:#666; font-size:14px; margin-top:6px; }
-    </style>
+    <title>Test Result</title>
+    <link rel="stylesheet" href="/css/result.css">
 </head>
 <body>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/quiz">Retake Quiz</a>
+    </nav>
+    <main>
+        <h1>Quiz Results</h1>
 
-  <div class="card">
-    <h2>Get Your Career Path</h2>
-    <p class="small">Click the button below to count the answers you selected and see the recommended career.</p>
+        <section>
+            <h2>Counts</h2>
+            <ul>
+                <li>A: <span th:text="${countA}">0</span></li>
+                <li>B: <span th:text="${countB}">0</span></li>
+                <li>C: <span th:text="${countC}">0</span></li>
+                <li>D: <span th:text="${countD}">0</span></li>
+                <li>Unanswered: <span th:text="${unanswered}">0</span></li>
+                <li>Total Answered: <span th:text="${totalAnswered}">0</span></li>
+                <li>Total Questions: <span th:text="${totalQuestions}">0</span></li>
+            </ul>
+        </section>
 
-    <button id="calcBtn" class="btn">Show my result</button>
-
-    <div id="result" aria-live="polite"></div>
-  </div>
-
-<script>
-(function(){
-  const btn = document.getElementById('calcBtn');
-  const out = document.getElementById('result');
-
-  function careerName(letter){
-    if(letter === 'A') return 'AI / Machine Learning Engineer';
-    if(letter === 'B') return 'Data Scientist';
-    if(letter === 'C') return 'Backend Developer';
-    if(letter === 'D') return 'Researcher / Academic';
-    return 'N/A';
-  }
-
-  function calculate() {
-    const checked = Array.from(document.querySelectorAll('input[type="radio"]:checked'));
-    if(checked.length === 0){
-      out.innerHTML = '<strong>No answers found.</strong> Make sure you selected options on the quiz page.';
-      return;
-    }
-
-    const counts = { A:0, B:0, C:0, D:0 };
-    checked.forEach(input => {
-      let v = (input.value || '').toString().trim().toUpperCase();
-      if(!v) return;
-      if(v.length === 0) return;
-      // if value is like "A. Building ..." take first letter
-      let key = v[0];
-      if(!['A','B','C','D'].includes(key)){
-        // fallback: maybe the value is full word like "AI" or "Data" — try to detect A/B/C/D presence
-        if(v.includes('A')) key = 'A';
-        else if(v.includes('B')) key = 'B';
-        else if(v.includes('C')) key = 'C';
-        else if(v.includes('D')) key = 'D';
-        else return;
-      }
-      counts[key] = (counts[key] || 0) + 1;
-    });
-
-    const total = counts.A + counts.B + counts.C + counts.D;
-    if(total === 0){
-      out.innerHTML = '<strong>No valid answers counted.</strong>';
-      return;
-    }
-
-    const max = Math.max(counts.A, counts.B, counts.C, counts.D);
-    const winners = Object.keys(counts).filter(k => counts[k] === max);
-
-    const perc = k => Math.round((counts[k] / total) * 100);
-
-    let resultHtml = '';
-    if(winners.length === 1){
-      resultHtml += `<h3>Your Career Path: ${careerName(winners[0])}</h3>`;
-    } else {
-      // tie: show multiple suggestions
-      resultHtml += `<h3>Possible Career Matches: ${winners.map(w => careerName(w)).join(' & ')}</h3>`;
-    }
-
-    resultHtml += `<div class="small">Breakdown: A: ${counts.A} (${perc('A')}%), B: ${counts.B} (${perc('B')}%), C: ${counts.C} (${perc('C')}%), D: ${counts.D} (${perc('D')}%)</div>`;
-
-    out.innerHTML = resultHtml;
-  }
-
-  btn.addEventListener('click', () => {
-    btn.disabled = true;
-    btn.textContent = 'Calculating...';
-    // small delay to allow UI update
-    setTimeout(() => {
-      calculate();
-      btn.disabled = false;
-      btn.textContent = 'Show my result';
-    }, 250);
-  });
-})();
-</script>
-
+        <section>
+            <h2>Suggested Career</h2>
+            <p th:text="${career}">No clear match</p>
+        </section>
+    </main>
 </body>
 </html>

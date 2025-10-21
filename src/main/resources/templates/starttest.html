@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAREER COUNSELLOR</title>
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/script.js"></script>
 </head>
 
@@ -18,16 +17,15 @@
         <div class="nav-right">
             <ul class="menu">
                 <li><a th:href="@{/home}">HOME</a></li>
-                
             </ul>
-                        <a th:href="@{/home}"> <button class="start">START TEST</button></a>
-
+            <!-- ✅ Corrected button -->
+            <a th:href="@{/starttest}">
+                <button class="start">START TEST</button>
+            </a>
         </div>
     </nav>
-    <br>
-    <br>
-    <br>
-    
+
+    <br><br><br>
 
     <div class="container">
         <div class="card">
@@ -39,20 +37,19 @@
             
             <div class="details">
                 <p><i class="fa-solid fa-circle-question"></i> 15 questions to complete</p>
-                <p><i class="fa-solid fa-clock"></i> Takes 10-15 minutes</p>
+                <p><i class="fa-solid fa-clock"></i> Takes 10–15 minutes</p>
                 <p><i class="fa-solid fa-circle-check"></i> Answer honestly for accuracy</p>
             </div>
+
+            <!-- ✅ This link is fine -->
             <a th:href="@{/quiz}" class="btn">Begin Assessment <i class="fas fa-arrow-right"></i></a>
-            
         </div>
     </div>
-<br>
-<br>
-<br>
+
+    <br><br><br>
+
     <footer>
         <p>&copy; 2024 Career Counsellor. All rights reserved.</p>
     </footer>
 </body>
 </html>
-
-    
