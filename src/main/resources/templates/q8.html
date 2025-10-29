@@ -12,18 +12,18 @@
     
     <nav class="navbar">
         <div class="nav-left">
-            <img th:src="@{/images/logo.png}" alt="Career Counsellor Logo">
+      <a th:href="@{/home}" class="brand-link">
+        <span class="brand-icon">🧠</span>
+        <span class="brand-name">CareerCounsellor</span>
+      </a>
         </div>
 
         <div class="nav-right">
-            <ul class="menu">
-                <li><a th:href="@{/home}">HOME</a></li>
-                <li><a th:href="@{/home}">START TEST</a></li>
+            <ul class="nav-menu">
+                <li><a th:href="@{/home}">Home</a></li>
             </ul>
-
+            <a th:href="@{/starttest}" class="start-btn">START TEST</a>
         </div>
-        
-
     </nav>
      <div class="quiz-card">
     <span class="question-number">Question 8</span>

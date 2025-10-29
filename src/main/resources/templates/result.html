@@ -3,34 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Result</title>
+    <title>Your Career Results - CareerCounsellor</title>
     <link rel="stylesheet" href="/css/result.css">
 </head>
 <body>
-    <nav>
-        <a href="/home">Home</a>
-        <a href="/quiz">Retake Quiz</a>
-    </nav>
-    <main>
-        <h1>Quiz Results</h1>
-
-        <section>
-            <h2>Counts</h2>
-            <ul>
-                <li>A: <span th:text="${countA}">0</span></li>
-                <li>B: <span th:text="${countB}">0</span></li>
-                <li>C: <span th:text="${countC}">0</span></li>
-                <li>D: <span th:text="${countD}">0</span></li>
-                <li>Unanswered: <span th:text="${unanswered}">0</span></li>
-                <li>Total Answered: <span th:text="${totalAnswered}">0</span></li>
-                <li>Total Questions: <span th:text="${totalQuestions}">0</span></li>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a th:href="@{/home}" class="brand-link">
+                <span class="brand-icon">🧠</span>
+                <span class="brand-name">CareerCounsellor</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <ul class="nav-menu">
+                <li><a th:href="@{/home}">Home</a></li>
             </ul>
-        </section>
+            <a th:href="@{/starttest}" class="start-btn">RETAKE TEST</a>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="results-container">
+            <div class="results-header">
+                <div class="success-icon">🎯</div>
+                <h1>Your Career Assessment Results</h1>
+                <p class="subtitle">Discover your ideal career path based on your personality profile</p>
+            </div>
 
-        <section>
-            <h2>Suggested Career</h2>
-            <p th:text="${career}">No clear match</p>
-        </section>
+            <div class="results-grid">
+                <div class="career-card primary-career">
+                    <div class="card-header">
+                        <h2>🎯 Your Top Career Match</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="career-result primary">
+                            <span class="career-name" th:text="${career}">No clear match</span>
+                        </div>
+                        <p class="career-description">Based on your responses, this career path aligns best with your interests and personality.</p>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="card-header">
+                        <h2>📊 Your Response Summary</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="summary-stats">
+                            <div class="summary-item">
+                                <span class="summary-label">Total Questions</span>
+                                <span class="summary-value" th:text="${totalQuestions}">10</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Questions Answered</span>
+                                <span class="summary-value" th:text="${totalAnswered}">0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Unanswered</span>
+                                <span class="summary-value" th:text="${unanswered}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="career-options-section">
+                <h2>🚀 Career Paths by Response Type</h2>
+                <p class="section-subtitle">Explore different career paths based on your answer patterns</p>
+                
+                <div class="career-options-grid">
+                    <div class="option-career-card" th:classappend="${countA > 0} ? 'has-responses' : ''">
+                        <div class="option-header">
+                            <div class="option-label">Option A Responses</div>
+                            <div class="option-count" th:text="${countA}">0</div>
+                        </div>
+                        <div class="career-info">
+                            <h3>🤖 AI/Machine Learning Engineer</h3>
+                            <p>Build intelligent systems and machine learning models. Focus on algorithms, data science, and artificial intelligence.</p>
+                            <div class="skills-list">
+                                <span class="skill">Python</span>
+                                <span class="skill">TensorFlow</span>
+                                <span class="skill">Data Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="option-career-card" th:classappend="${countB > 0} ? 'has-responses' : ''">
+                        <div class="option-header">
+                            <div class="option-label">Option B Responses</div>
+                            <div class="option-count" th:text="${countB}">0</div>
+                        </div>
+                        <div class="career-info">
+                            <h3>📊 Data Scientist</h3>
+                            <p>Analyze complex data to find patterns and insights. Work with statistics, visualization, and predictive modeling.</p>
+                            <div class="skills-list">
+                                <span class="skill">Statistics</span>
+                                <span class="skill">R/Python</span>
+                                <span class="skill">Visualization</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="option-career-card" th:classappend="${countC > 0} ? 'has-responses' : ''">
+                        <div class="option-header">
+                            <div class="option-label">Option C Responses</div>
+                            <div class="option-count" th:text="${countC}">0</div>
+                        </div>
+                        <div class="career-info">
+                            <h3>💻 Software Developer</h3>
+                            <p>Create applications, websites, and software systems. Focus on coding, system design, and user experience.</p>
+                            <div class="skills-list">
+                                <span class="skill">JavaScript</span>
+                                <span class="skill">React</span>
+                                <span class="skill">System Design</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="option-career-card" th:classappend="${countD > 0} ? 'has-responses' : ''">
+                        <div class="option-header">
+                            <div class="option-label">Option D Responses</div>
+                            <div class="option-count" th:text="${countD}">0</div>
+                        </div>
+                        <div class="career-info">
+                            <h3>🔬 Research Scientist</h3>
+                            <p>Conduct theoretical research and publish findings. Focus on advancing knowledge in computer science and technology.</p>
+                            <div class="skills-list">
+                                <span class="skill">Research</span>
+                                <span class="skill">Mathematics</span>
+                                <span class="skill">Academic Writing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a th:href="@{/starttest}" class="retake-btn">Take Test Again</a>
+                <a th:href="@{/home}" class="home-btn">Back to Home</a>
+            </div>
+        </div>
     </main>
 </body>
 </html>

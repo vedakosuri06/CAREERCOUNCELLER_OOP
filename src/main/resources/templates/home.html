@@ -3,40 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAREER COUNSELLOR</title>
+    <title>CareerCounsellor - Discover Your Career Path</title>
     <link rel="stylesheet" href="/css/home.css">
-    <script src="/js/script.js"></script>
 </head>
 <body>
-    
-    <nav class="navbar">
-        <div class="nav-left">
-          <img th:src="@{/images/logo.png}" alt="Logo">
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <div class="brand-link">
+                    <span class="brand-icon">🧠</span>
+                    <span class="brand-name">CareerCounsellor</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a th:href="@{/home}">Home</a></li>
+                </ul>
+                <a th:href="@{/starttest}" class="start-btn">START TEST</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-left">
+                <h1 class="hero-title">
+                    Discover Your 
+                    <span class="highlight">True Potential</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Take the most accurate career personality test to identify your natural 
+                    tendencies, helping you make better decisions in your career, 
+                    relationships, and personal growth.
+                </p>
+                
+                <a th:href="@{/starttest}" class="cta-button">
+                    START TEST <span class="arrow">→</span>
+                </a>
+                
+                <div class="features">
+                    <div class="feature">
+                        <span class="checkmark">✓</span>
+                        <span>Comprehensive Analysis</span>
+                    </div>
+                    <div class="feature">
+                        <span class="checkmark">✓</span>
+                        <span>Instant Results</span>
+                    </div>
+                    <div class="feature">
+                        <span class="checkmark">✓</span>
+                        <span>Scientifically Validated</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="personality-wheel">
+                    <div class="center-circle">
+                        <span class="you-text">YOU</span>
+                    </div>
+                    <div class="personality-type top-left">
+                        <span class="type-letter">E</span>
+                        <span class="type-name">Extrovert</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill extrovert"></div>
+                        </div>
+                    </div>
+                    <div class="personality-type top-right">
+                        <span class="type-letter">N</span>
+                        <span class="type-name">Intuitive</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill intuitive"></div>
+                        </div>
+                    </div>
+                    <div class="personality-type bottom-left">
+                        <span class="type-letter">T</span>
+                        <span class="type-name">Thinking</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill thinking"></div>
+                        </div>
+                    </div>
+                    <div class="personality-type bottom-right">
+                        <span class="type-letter">P</span>
+                        <span class="type-name">Perceiving</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill perceiving"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="nav-right">
-             <ul class="menu">
-                <li><a th:href="@{/home}">HOME</a></li>
-            </ul>
-            <!-- ✅ fixed href -->
-            <a th:href="@{/startTest}"><button class="start">START TEST</button></a>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>
-            Discover Your <br>
-            <span>True Potential</span>
-        </h1>
-        <p>
-            Take this personality test to identify your ideal career path, 
-            helping you make better decisions in your career, and personal growth.
-        </p>
-        <!-- ✅ fixed href -->
-        <a th:href="@{/startTest}">
-            <button id="startBtn">START TEST</button>
-        </a>
-    </section>
-
+    </main>
 </body>
 </html>
