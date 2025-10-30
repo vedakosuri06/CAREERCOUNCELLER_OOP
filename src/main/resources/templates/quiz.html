@@ -1,65 +1,235 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAREER COUNSELLOR</title>
-    <link rel="stylesheet" href="/css/quiz.css">
-    <script src="/js/script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CAREER COUNSELLOR</title>
+  <link rel="stylesheet" href="/css/quiz.css">
+  <script src="/js/script.js"></script>
+
+  <style>
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 40;
+    }
+    .modal[aria-hidden="true"] { display: none; }
+    .modal-content {
+      background: #fff;
+      padding: 28px;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 92%;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+    .modal-content h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      color: #1a1a1a;
+    }
+    .modal .field { margin-bottom: 12px; }
+    .modal .field input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #e6e6e6;
+    }
+    .modal-actions { text-align: right; }
+    .modal .start-btn {
+      background: linear-gradient(90deg,#6f3ab6,#c67ee6);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 700;
+    }
+
+    /* Hide quiz by default until form is submitted */
+    .quiz-section { display: none; }
+
+    /* Blur background if needed */
+    .blurred { filter: blur(3px) brightness(0.9); pointer-events: none; }
+
+    .quiz-card { position: relative; z-index: 1; }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const userModal = document.getElementById('userModal');
+      const userForm = document.getElementById('userForm');
+      const quizSection = document.querySelector('.quiz-section');
+      const hidName = document.getElementById('hid_name');
+      const hidEmail = document.getElementById('hid_email');
+      const hidRoll = document.getElementById('hid_rollNo');
+
+      // helper to show/hide modal and quiz
+      function showQuizWith(obj){
+        hidName.value = obj.name || '';
+        hidEmail.value = obj.email || '';
+        hidRoll.value = obj.rollNo || '';
+        localStorage.setItem('quizUser', JSON.stringify(obj));
+        userModal.setAttribute('aria-hidden','true');
+        quizSection.style.display = 'block';
+        // focus the first radio if any
+        setTimeout(()=>{
+          const firstRadio = document.querySelector('.quiz-section input[type=radio]');
+          if(firstRadio) firstRadio.focus();
+        }, 250);
+      }
+
+      // parse query params (useful when navigating between pages)
+      const params = new URLSearchParams(window.location.search);
+      const qName = params.get('name');
+      const qEmail = params.get('email');
+      const qRoll = params.get('rollNo');
+
+      // priority: query params > localStorage
+      if(qName && qEmail && qRoll){
+        showQuizWith({name: qName, email: qEmail, rollNo: qRoll});
+      } else {
+        const saved = localStorage.getItem('quizUser');
+        if(saved){
+          try{
+            const obj = JSON.parse(saved);
+            showQuizWith(obj);
+          }catch(e){
+            // corrupted saved data - clear and show modal
+            localStorage.removeItem('quizUser');
+            userModal.setAttribute('aria-hidden','false');
+            quizSection.style.display = 'none';
+          }
+        } else {
+          // no saved data - show modal
+          userModal.setAttribute('aria-hidden','false');
+          quizSection.style.display = 'none';
+          // focus first input in modal for accessibility
+          setTimeout(()=>{
+            const nm = document.getElementById('userName'); if(nm) nm.focus();
+          }, 120);
+        }
+      }
+
+      userForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('userName').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        const roll = document.getElementById('userRoll').value.trim();
+        if(!name || !email || !roll){
+          alert('Please fill all fields');
+          return;
+        }
+
+  const obj = {name:name,email:email,rollNo:roll};
+  // show quiz and persist
+  showQuizWith(obj);
+  // ensure modal overlay is removed (in case inline style exists)
+  try{ userModal.style.display = 'none'; }catch(e){}
+  try{ userModal.setAttribute('aria-hidden','true'); }catch(e){}
+
+        // replace URL so refresh keeps user info without exposing server-side changes
+        const newQs = new URLSearchParams({name: name, email: email, rollNo: roll}).toString();
+        window.history.replaceState({}, '', window.location.pathname + '?' + newQs);
+      });
+
+      // Append user info to any NEXT links when clicked so next pages can read it
+      function appendUserToHref(href){
+        const nameVal = hidName.value || (JSON.parse(localStorage.getItem('quizUser')||'{}').name || '');
+        const emailVal = hidEmail.value || (JSON.parse(localStorage.getItem('quizUser')||'{}').email || '');
+        const rollVal = hidRoll.value || (JSON.parse(localStorage.getItem('quizUser')||'{}').rollNo || '');
+        if(!nameVal && !emailVal && !rollVal) return href; // nothing to add
+        const join = href.includes('?') ? '&' : '?';
+        return href + join + new URLSearchParams({name: nameVal, email: emailVal, rollNo: rollVal}).toString();
+      }
+
+      document.querySelectorAll('.next').forEach(btn => {
+        btn.addEventListener('click', function(ev){
+          // find enclosing anchor (if any)
+          const a = btn.closest('a');
+          if(!a) return;
+          ev.preventDefault();
+          const href = a.getAttribute('href');
+          if(!href) return;
+          const newHref = appendUserToHref(href);
+          window.location.href = newHref;
+        });
+      });
+    });
+  </script>
 </head>
+
 <body>
-    
+  <header class="header">
     <nav class="navbar">
-        <div class="nav-left">
-      <a th:href="@{/home}" class="brand-link">
-        <span class="brand-icon">🧠</span>
-        <span class="brand-name">CareerCounsellor</span>
-      </a>
-        </div>
-
-        <div class="nav-right">
-            <ul class="nav-menu">
-                <li><a th:href="@{/home}">Home</a></li>
-            </ul>
-            <a th:href="@{/starttest}" class="start-btn">START TEST</a>
-        </div>
+      <div class="nav-left">
+        <a th:href="@{/}" class="brand-link">
+          <span class="brand-icon">🧠</span>
+          <span class="brand-name">CareerCounsellor</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-menu">
+          <li><a th:href="@{/}">Home</a></li>
+        </ul>
+        <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+      </div>
     </nav>
-<br>
-<br>
-     <div class="quiz-card">
-    <span class="question-number">Question 1</span>
-    <p class="question-text"> What excites you most?.</p>
+  </header>
 
-    <div class="options">
-      <label class="option">
-        <input type="radio" name="q1" value="A">
-        <span>A. Building intelligent machines that learn</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q1" value="B">
-        <span>B.  Finding hidden patterns in data</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q1" value="C">
-        <span>C. Developing backend systems</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q1" value="D">
-        <span>D. Exploring theoretical ideas and publishing papers</span>
-      </label>
-      <a th:href="@{/q2}">
-        <button class="next">NEXT</button>
-      </a>
-
+  <!-- User info modal -->
+  <!-- modal hidden by default; script will show it when needed -->
+  <div id="userModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">Tell us about yourself</h2>
+      <form id="userForm">
+        <div class="field"><label>Full name: <input type="text" id="userName" name="name" required></label></div>
+        <div class="field"><label>Email: <input type="email" id="userEmail" name="email" required></label></div>
+        <div class="field"><label>Roll No: <input type="text" id="userRoll" name="rollNo" required></label></div>
+        <div class="modal-actions">
+          <button type="submit" class="start-btn">Start Quiz</button>
+        </div>
+      </form>
     </div>
   </div>
-<br>
-<br>
+
+  <noscript>
+    <div style="max-width:600px;margin:20px auto;padding:16px;background:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.06);">
+      <strong>JavaScript is required</strong> — please enable JavaScript to take the quiz. The form may not behave correctly without it.
+    </div>
+  </noscript>
+
+  <!-- QUIZ SECTION (hidden until form submitted) -->
+  <div class="quiz-section">
+    <form th:action="@{/submitQuiz}" method="post" id="quizForm">
+      <input type="hidden" name="name" id="hid_name">
+      <input type="hidden" name="email" id="hid_email">
+      <input type="hidden" name="rollNo" id="hid_rollNo">
+
+      <div class="quiz-card">
+        <span class="question-number">Question 1</span>
+        <p class="question-text">What excites you most?</p>
+
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" value="A"><span>A. Building intelligent machines that learn</span></label>
+          <label class="option"><input type="radio" name="q1" value="B"><span>B. Finding hidden patterns in data</span></label>
+          <label class="option"><input type="radio" name="q1" value="C"><span>C. Developing backend systems</span></label>
+          <label class="option"><input type="radio" name="q1" value="D"><span>D. Exploring theoretical ideas and publishing papers</span></label>
+          <a th:href="@{/q2}">
+            <button type="button" class="next">NEXT</button>
+          </a>
+        </div>
+      </div>
+    </form>
+
     <footer>
-        <p>&copy; 2024 Career Counsellor. All rights reserved.</p>
+      <p>&copy; 2024 Career Counsellor. All rights reserved.</p>
     </footer>
+  </div>
 </body>
 </html>
-
-    

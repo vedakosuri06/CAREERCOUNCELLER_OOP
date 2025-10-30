@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   
 <head>
     <meta charset="UTF-8">
@@ -7,52 +7,118 @@
     <title>CAREER COUNSELLOR</title>
     <link rel="stylesheet" href="/css/quiz.css">
     <script src="/js/script.js"></script>
+
 </head>
 <body>
-    
-    <nav class="navbar">
-        <div class="nav-left">
-      <a th:href="@{/home}" class="brand-link">
-        <span class="brand-icon">🧠</span>
-        <span class="brand-name">CareerCounsellor</span>
-      </a>
-        </div>
+     <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+            <a th:href="@{/}" class="brand-link">
+                    <span class="brand-icon">🧠</span>
+                    <span class="brand-name">CareerCounsellor</span>
+                </a>
 
-        <div class="nav-right">
-            <ul class="nav-menu">
-                <li><a th:href="@{/home}">Home</a></li>
-            </ul>
-            <a th:href="@{/starttest}" class="start-btn">START TEST</a>
-        </div>
-        
-
-    </nav>
-     <div class="quiz-card">
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a th:href="@{/}">Home</a></li>
+                </ul>
+                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+            </div>
+        </nav>
+    </header>
+    <div class="quiz-card">
     <span class="question-number">Question 10</span>
     <p class="question-text"> Your ideal working environment is:</p>
 
-    <div class="options">
-      <label class="option">
-        <input type="radio" name="q10" value="A">
-        <span>A.Fast-paced startup solving AI problems</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q10" value="B">
-        <span>B. Analytics team in a business or bank</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q10" value="C">
-        <span>C.Software company focusing on backend services</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q10" value="D">
-        <span>D.University or research lab</span>
-      </label>
-     <a th:href="@{/result}">
-    <button class="next">NEXT</button>
-</a>
-    </div>
+  <form id="q10Form" method="post" action="/submitQuiz">
+      <div class="options">
+        <label class="option">
+          <input type="radio" name="q10" value="A">
+          <span>A. Fast-paced startup solving AI problems</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="q10" value="B">
+          <span>B. Analytics team in a business or bank</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="q10" value="C">
+          <span>C. Software company focusing on backend services</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="q10" value="D">
+          <span>D. University or research lab</span>
+        </label>
+
+        <button type="submit" class="next">SUBMIT & VIEW RESULTS</button>
+      </div>
+    </form>
   </div>
+
+  <script>
+    (function(){
+      var form = document.getElementById('q10Form');
+      function safeGetLocal(key){ try { return localStorage.getItem(key); } catch(e){ return null; } }
+
+      // Try to hydrate the form before submit with any stored answers
+      form.addEventListener('submit', function(e){
+        // Ensure a q10 value is selected
+        var q10 = form.querySelector('input[name="q10"]:checked');
+        if(!q10){
+          e.preventDefault();
+          alert('Please select an option for Question 10 before submitting.');
+          return false;
+        }
+
+        // Remove any previous hidden inputs we may have added
+        Array.from(form.querySelectorAll('input[type="hidden"][data-auto]')).forEach(function(n){ n.remove(); });
+
+        // Collect possible stored answers. Support multiple storage shapes:
+        // 1) single JSON array/string under key 'answers' or 'quizAnswers'
+        // 2) individual keys 'q1'..'q9'
+        var stored = null;
+        var candidateKeys = ['answers','quizAnswers','selectedAnswers','submissionAnswers','responses','userAnswers'];
+        for(var i=0;i<candidateKeys.length;i++){
+          var v = safeGetLocal(candidateKeys[i]);
+          if(v){
+            try{ var parsed = JSON.parse(v); if(Array.isArray(parsed)){ stored = parsed; break; } }catch(err){}
+            // if comma separated
+            if(typeof v === 'string' && v.indexOf(',')>-1){ stored = v.split(/[,;\s]+/).map(function(s){return s.trim();}); break; }
+          }
+        }
+
+        // If no array found, try q1..q9 individual keys
+        if(!stored){
+          stored = [];
+          for(var i=1;i<=9;i++){
+            var k = 'q'+i;
+            var val = safeGetLocal(k);
+            if(val){ stored.push(val); }
+            else { stored.push(''); }
+          }
+        }
+
+        // Add hidden inputs for q1..q9
+        for(var i=1;i<=9;i++){
+          var input = document.createElement('input');
+          input.type = 'hidden'; input.name = 'q'+i; input.value = stored[i-1] || '';
+          input.setAttribute('data-auto','true');
+          form.appendChild(input);
+        }
+
+        // Ensure name/email/rollNo are included if present in localStorage
+        var name = safeGetLocal('name');
+        var email = safeGetLocal('email');
+        var rollNo = safeGetLocal('rollNo');
+        if(name){ var ni = document.createElement('input'); ni.type='hidden'; ni.name='name'; ni.value=name; ni.setAttribute('data-auto','true'); form.appendChild(ni);} 
+        if(email){ var ei = document.createElement('input'); ei.type='hidden'; ei.name='email'; ei.value=email; ei.setAttribute('data-auto','true'); form.appendChild(ei);} 
+        if(rollNo){ var ri = document.createElement('input'); ri.type='hidden'; ri.name='rollNo'; ri.value=rollNo; ri.setAttribute('data-auto','true'); form.appendChild(ri);} 
+
+        // q10 is already an input; ensure it's present (it is)
+        // allow default form submission to proceed
+      });
+    })();
+  </script>
   
 
 

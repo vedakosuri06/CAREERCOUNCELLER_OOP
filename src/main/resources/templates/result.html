@@ -6,141 +6,101 @@
     <title>Your Career Results - CareerCounsellor</title>
     <link rel="stylesheet" href="/css/result.css">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <a th:href="@{/home}" class="brand-link">
-                <span class="brand-icon">🧠</span>
-                <span class="brand-name">CareerCounsellor</span>
-            </a>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-menu">
-                <li><a th:href="@{/home}">Home</a></li>
-            </ul>
-            <a th:href="@{/starttest}" class="start-btn">RETAKE TEST</a>
-        </div>
-    </nav>
+<body th:attr="data-answers=${submission != null ? submission.answers : (answers != null ? answers : '')}">
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a th:href="@{/}" class="brand-link">
+                    <span class="brand-icon">🧠</span>
+                    <span class="brand-name">CareerCounsellor</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a th:href="@{/}">Home</a></li>
+                </ul>
+                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+            </div>
+        </nav>
+    </header>
+
     <main class="main-content">
         <div class="results-container">
             <div class="results-header">
-                <div class="success-icon">🎯</div>
                 <h1>Your Career Assessment Results</h1>
-                <p class="subtitle">Discover your ideal career path based on your personality profile</p>
+                <p class="subtitle">Discover your ideal career path based on your profile</p>
             </div>
 
-            <div class="results-grid">
-                <div class="career-card primary-career">
-                    <div class="card-header">
-                        <h2>🎯 Your Top Career Match</h2>
-                    </div>
-                    <div class="card-content">
-                        <div class="career-result primary">
-                            <span class="career-name" th:text="${career}">No clear match</span>
-                        </div>
-                        <p class="career-description">Based on your responses, this career path aligns best with your interests and personality.</p>
-                    </div>
-                </div>
+            <!-- Career result section -->
+                        <div class="career-result">
+                                <h2>Your Recommended Career Path</h2>
+                                <!-- Support multiple controller attribute names: submission.recommendedCareer, recommended, or career -->
+                                <p id="recommended-career" class="career" th:text="${submission?.recommendedCareer ?: recommended ?: career ?: 'Software Engineer'}">Software Engineer</p>
 
-                <div class="stats-card">
-                    <div class="card-header">
-                        <h2>📊 Your Response Summary</h2>
-                    </div>
-                    <div class="card-content">
-                        <div class="summary-stats">
-                            <div class="summary-item">
-                                <span class="summary-label">Total Questions</span>
-                                <span class="summary-value" th:text="${totalQuestions}">10</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-label">Questions Answered</span>
-                                <span class="summary-value" th:text="${totalAnswered}">0</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-label">Unanswered</span>
-                                <span class="summary-value" th:text="${unanswered}">0</span>
-                            </div>
+                                <!-- Backend-provided score breakdown (A/B/C/D) -->
+                                <h3>Score Breakdown</h3>
+                                <table class="results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Option</th>
+                                            <th>Career Type</th>
+                                            <th>Points</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>A</td>
+                                            <td>Artificial Intelligence / Machine Learning Engineer</td>
+                                            <td th:text="${scores != null ? scores['A'] : 0}">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>B</td>
+                                            <td>Data Science / Analytics</td>
+                                            <td th:text="${scores != null ? scores['B'] : 0}">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>C</td>
+                                            <td>Backend / Software Development</td>
+                                            <td th:text="${scores != null ? scores['C'] : 0}">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>D</td>
+                                            <td>Research / Academia</td>
+                                            <td th:text="${scores != null ? scores['D'] : 0}">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="career-options-section">
-                <h2>🚀 Career Paths by Response Type</h2>
-                <p class="section-subtitle">Explore different career paths based on your answer patterns</p>
-                
-                <div class="career-options-grid">
-                    <div class="option-career-card" th:classappend="${countA > 0} ? 'has-responses' : ''">
-                        <div class="option-header">
-                            <div class="option-label">Option A Responses</div>
-                            <div class="option-count" th:text="${countA}">0</div>
-                        </div>
-                        <div class="career-info">
-                            <h3>🤖 AI/Machine Learning Engineer</h3>
-                            <p>Build intelligent systems and machine learning models. Focus on algorithms, data science, and artificial intelligence.</p>
-                            <div class="skills-list">
-                                <span class="skill">Python</span>
-                                <span class="skill">TensorFlow</span>
-                                <span class="skill">Data Analysis</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="option-career-card" th:classappend="${countB > 0} ? 'has-responses' : ''">
-                        <div class="option-header">
-                            <div class="option-label">Option B Responses</div>
-                            <div class="option-count" th:text="${countB}">0</div>
-                        </div>
-                        <div class="career-info">
-                            <h3>📊 Data Scientist</h3>
-                            <p>Analyze complex data to find patterns and insights. Work with statistics, visualization, and predictive modeling.</p>
-                            <div class="skills-list">
-                                <span class="skill">Statistics</span>
-                                <span class="skill">R/Python</span>
-                                <span class="skill">Visualization</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="option-career-card" th:classappend="${countC > 0} ? 'has-responses' : ''">
-                        <div class="option-header">
-                            <div class="option-label">Option C Responses</div>
-                            <div class="option-count" th:text="${countC}">0</div>
-                        </div>
-                        <div class="career-info">
-                            <h3>💻 Software Developer</h3>
-                            <p>Create applications, websites, and software systems. Focus on coding, system design, and user experience.</p>
-                            <div class="skills-list">
-                                <span class="skill">JavaScript</span>
-                                <span class="skill">React</span>
-                                <span class="skill">System Design</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="option-career-card" th:classappend="${countD > 0} ? 'has-responses' : ''">
-                        <div class="option-header">
-                            <div class="option-label">Option D Responses</div>
-                            <div class="option-count" th:text="${countD}">0</div>
-                        </div>
-                        <div class="career-info">
-                            <h3>🔬 Research Scientist</h3>
-                            <p>Conduct theoretical research and publish findings. Focus on advancing knowledge in computer science and technology.</p>
-                            <div class="skills-list">
-                                <span class="skill">Research</span>
-                                <span class="skill">Mathematics</span>
-                                <span class="skill">Academic Writing</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Firebase result table (optional) -->
+            <div class="all-results" th:if="${allSubmissions != null}">
+                <h2>All Submissions (from Firebase)</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Roll No</th>
+                            <th>Career Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="entry : ${allSubmissions}">
+                            <td th:text="${entry.name}"></td>
+                            <td th:text="${entry.email}"></td>
+                            <td th:text="${entry.rollNo}"></td>
+                            <td th:text="${entry.recommendedCareer}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="action-buttons">
-                <a th:href="@{/starttest}" class="retake-btn">Take Test Again</a>
-                <a th:href="@{/home}" class="home-btn">Back to Home</a>
+                <a th:href="@{/#instructions}" class="retake-btn">Take Test Again</a>
+                <a th:href="@{/}" class="home-btn">Back to Home</a>
             </div>
         </div>
     </main>
+    
 </body>
 </html>

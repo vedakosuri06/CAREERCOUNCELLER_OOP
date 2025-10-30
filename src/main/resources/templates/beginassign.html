@@ -13,7 +13,7 @@
     <header class="header">
         <nav class="navbar">
             <div class="nav-left">
-            <a th:href="@{/}" class="brand-link">
+            <a th:href="@{/home}" class="brand-link">
                     <span class="brand-icon">🧠</span>
                     <span class="brand-name">CareerCounsellor</span>
                 </a>
@@ -21,9 +21,9 @@
             </div>
             <div class="nav-right">
                 <ul class="nav-menu">
-                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/home}">Home</a></li>
                 </ul>
-                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+                <a th:href="@{/quiz}" class="start-btn">START TEST</a>
             </div>
         </nav>
     </header>
@@ -124,7 +124,40 @@
                 </div>
             </div>
 
-           
+            <!-- counts / quick summary panel (placeholder; controller should fill values) -->
+            <aside class="counts-card" aria-hidden="false">
+                <h4>Your Response Summary</h4>
+                <div class="counts-grid">
+                    <div class="count-item">
+                        <div class="count-num" th:text="${totalQuestions}">10</div>
+                        <div class="count-label">Total Questions</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${totalAnswered}">0</div>
+                        <div class="count-label">Answered</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${unanswered}">10</div>
+                        <div class="count-label">Unanswered</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countA}">0</div>
+                        <div class="count-label">Option A</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countB}">0</div>
+                        <div class="count-label">Option B</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countC}">0</div>
+                        <div class="count-label">Option C</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countD}">0</div>
+                        <div class="count-label">Option D</div>
+                    </div>
+                </div>
+            </aside>
         </section>
 
     </main>

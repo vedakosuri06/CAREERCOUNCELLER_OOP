@@ -1,71 +1,65 @@
 package com.example.demo1.controller;
 
+import com.example.demo1.model.Submission;
+import com.example.demo1.service.QuizService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class QuizController {
 
+    private final QuizService quizService;
+
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
+
     @PostMapping("/submitQuiz")
     public String submitQuiz(
-            @RequestParam(value = "q1", required = false) String q1,
-            @RequestParam(value = "q2", required = false) String q2,
-            @RequestParam(value = "q3", required = false) String q3,
-            @RequestParam(value = "q4", required = false) String q4,
-            @RequestParam(value = "q5", required = false) String q5,
-            @RequestParam(value = "q6", required = false) String q6,
-            @RequestParam(value = "q7", required = false) String q7,
-            @RequestParam(value = "q8", required = false) String q8,
-            @RequestParam(value = "q9", required = false) String q9,
-            @RequestParam(value = "q10", required = false) String q10,
-            Model model) {
-
-        int countA = 0, countB = 0, countC = 0, countD = 0, unanswered = 0;
-        String[] answers = {q1, q2, q3, q4, q5, q6, q7, q8, q9, q10};
-
-        for (String ans : answers) {
-            if (ans == null || ans.trim().isEmpty()) {
-                unanswered++;
-                continue;
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String email,
+        @RequestParam(required = false) String rollNo,
+        @RequestParam Map<String,String> allParams,
+        Model model
+    ) {
+        try {
+            Map<String,String> answers = new HashMap<>();
+            for (int i=1;i<=10;i++) {
+                String key = "q" + i;
+                // Store as Q1..Q10 keys
+                answers.put("Q" + i, allParams.getOrDefault(key, ""));
             }
-            switch (ans.trim().toUpperCase()) {
-                case "A" -> countA++;
-                case "B" -> countB++;
-                case "C" -> countC++;
-                case "D" -> countD++;
-                default -> { /* ignore unexpected values */ }
+
+            // Prepare ordered list of answers (Q1..Q10) for client-side consumption
+            List<String> answerList = new ArrayList<>();
+            for (int i=1;i<=10;i++) {
+                answerList.add(answers.getOrDefault("Q" + i, ""));
             }
+
+            // Ensure null-safe values for storage/display
+            String safeName = name != null ? name : "";
+            String safeEmail = email != null ? email : "";
+            String safeRoll = rollNo != null ? rollNo : "";
+
+            Submission submission = quizService.evaluateAndStore(safeName, safeEmail, safeRoll, answers);
+            model.addAttribute("submission", submission);
+            model.addAttribute("scores", submission.getScores());
+            model.addAttribute("recommended", submission.getRecommendedCareer());
+            // expose ordered answers as "answers" so Thymeleaf can render them into data-attributes
+            model.addAttribute("answers", answerList);
+            return "result";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Error processing submission: " + e.getMessage());
+            return "error";
         }
-
-        int totalAnswered = countA + countB + countC + countD;
-        int totalQuestions = answers.length;
-
-        // put counts into model for Thymeleaf
-        model.addAttribute("countA", countA);
-        model.addAttribute("countB", countB);
-        model.addAttribute("countC", countC);
-        model.addAttribute("countD", countD);
-        model.addAttribute("unanswered", unanswered);
-        model.addAttribute("totalAnswered", totalAnswered);
-        model.addAttribute("totalQuestions", totalQuestions);
-
-        // optional debug log to terminal to confirm controller ran
-        System.out.println("Counts => A:" + countA + " B:" + countB + " C:" + countC + " D:" + countD + " unanswered:" + unanswered);
-
-        // decide a simple label (optional)
-        String career;
-        int max = Math.max(Math.max(countA, countB), Math.max(countC, countD));
-        if (max == countA) career = "Data Analyst";
-        else if (max == countB) career = "Software Developer";
-        else if (max == countC) career = "Data Scientist";
-        else if (max == countD) career = "AI / ML Specialist";
-        else career = "No clear match";
-
-        model.addAttribute("career", career);
-
-        return "result";
     }
 }
 

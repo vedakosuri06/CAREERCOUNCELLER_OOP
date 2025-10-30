@@ -10,23 +10,23 @@
 </head>
 <body>
     
-    <nav class="navbar">
-        <div class="nav-left">
-      <a th:href="@{/home}" class="brand-link">
-        <span class="brand-icon">🧠</span>
-        <span class="brand-name">CareerCounsellor</span>
-      </a>
-        </div>
+     <header class="header">
+        <nav class="navbar">
+            <div class="nav-left">
+            <a th:href="@{/}" class="brand-link">
+                    <span class="brand-icon">🧠</span>
+                    <span class="brand-name">CareerCounsellor</span>
+                </a>
 
-        <div class="nav-right">
-            <ul class="nav-menu">
-                <li><a th:href="@{/home}">Home</a></li>
-            </ul>
-            <a th:href="@{/starttest}" class="start-btn">START TEST</a>
-        </div>
-        
-
-    </nav>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a th:href="@{/}">Home</a></li>
+                </ul>
+                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+            </div>
+        </nav>
+    </header>
      <div class="quiz-card">
     <span class="question-number">Question 3</span>
     <p class="question-text"> Which tool or library do you enjoy using most?</p>

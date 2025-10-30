@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; }
+    header { display:flex; justify-content:space-between; align-items:center }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quiz</h1>
+    <div id="studentInfo"></div>
+  </header>
+
+  <p>This is a placeholder quiz page. Replace with your actual quiz UI (Thymeleaf templates or static HTML/JS) as needed.</p>
+
+  <script>
+    const s = sessionStorage.getItem('student');
+    if (s) {
+      try {
+        const st = JSON.parse(s);
+        document.getElementById('studentInfo').textContent = st.name + ' (' + st.rollno + ')';
+      } catch(e) {}
+    }
+  </script>
+</body>
+</html>

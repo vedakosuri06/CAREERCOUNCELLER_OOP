@@ -4,26 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareerCounsellor - Discover Your Career Path</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <!-- cache-bust with version to force browser refresh when editing -->
+    <link rel="stylesheet" href="/css/beginassign.css?v=2">
+
+   
 </head>
 <body>
     <header class="header">
         <nav class="navbar">
             <div class="nav-left">
-                <div class="brand-link">
+            <a th:href="@{/}" class="brand-link">
                     <span class="brand-icon">🧠</span>
                     <span class="brand-name">CareerCounsellor</span>
-                </div>
+                </a>
+
             </div>
             <div class="nav-right">
                 <ul class="nav-menu">
-                    <li><a th:href="@{/home}">Home</a></li>
+                    <li><a th:href="@{/}">Home</a></li>
                 </ul>
-                <a th:href="@{/starttest}" class="start-btn">START TEST</a>
+                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
             </div>
         </nav>
     </header>
-
     <main class="main-content">
         <div class="hero-section">
             <div class="hero-left">
@@ -38,7 +41,8 @@
                     relationships, and personal growth.
                 </p>
                 
-                <a th:href="@{/starttest}" class="cta-button">
+                <!-- CTA now scrolls to instructions -->
+                <a href="#instructions" class="cta-button">
                     START TEST <span class="arrow">→</span>
                 </a>
                 
@@ -94,6 +98,94 @@
                 </div>
             </div>
         </div>
+
+        <!-- Instructions & acceptance area -->
+        <section id="instructions" class="instruction-wrap" role="region" aria-labelledby="instructions-title">
+            <div class="instruction-card" aria-live="polite">
+                <h3 id="instructions-title">Before you start the test — please read</h3>
+                <p>Please review the following so your results are accurate and useful.</p>
+
+                <ul class="instruction-list">
+                    <li><span class="bul">1</span>Answer honestly — there are no right or wrong answers.</li>
+                    <li><span class="bul">2</span>Choose the option that best reflects how you usually behave.</li>
+                    <li><span class="bul">3</span>The test has 10 questions and takes about 2–5 minutes.</li>
+                    <li><span class="bul">4</span>Your results will suggest careers based on patterns in your answers.</li>
+                </ul>
+
+                <div class="instruction-actions">
+                    <form class="start-form" th:action="@{/quiz}" method="get" onsubmit="return true;">
+                        <label class="instruction-accept">
+                            <input id="acceptChk" type="checkbox" />
+                            I have read and accept the instructions
+                        </label>
+
+                        <button id="startBtn" class="start-btn" type="submit" disabled>START TEST</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- counts / quick summary panel (placeholder; controller should fill values) -->
+            <aside class="counts-card" aria-hidden="false">
+                <h4>Your Response Summary</h4>
+                <div class="counts-grid">
+                    <div class="count-item">
+                        <div class="count-num" th:text="${totalQuestions}">10</div>
+                        <div class="count-label">Total Questions</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${totalAnswered}">0</div>
+                        <div class="count-label">Answered</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${unanswered}">10</div>
+                        <div class="count-label">Unanswered</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countA}">0</div>
+                        <div class="count-label">Option A</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countB}">0</div>
+                        <div class="count-label">Option B</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countC}">0</div>
+                        <div class="count-label">Option C</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-num" th:text="${countD}">0</div>
+                        <div class="count-label">Option D</div>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
     </main>
+
+    <!-- enable start button when checkbox checked -->
+    <script>
+        (function(){
+            // Wait until DOM ready
+            document.addEventListener('DOMContentLoaded', function(){
+                const chk = document.getElementById('acceptChk');
+                const btn = document.getElementById('startBtn');
+                if(chk && btn){
+                    btn.disabled = !chk.checked;
+                    chk.addEventListener('change', function(){ btn.disabled = !this.checked; });
+                }
+
+                // mobile menu toggle
+                const toggle = document.querySelector('.menu-toggle');
+                const menu = document.getElementById('primary-menu');
+                if(toggle && menu){
+                    toggle.addEventListener('click', function(){
+                        const expanded = this.getAttribute('aria-expanded') === 'true';
+                        this.setAttribute('aria-expanded', String(!expanded));
+                        menu.classList.toggle('open');
+                    });
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
