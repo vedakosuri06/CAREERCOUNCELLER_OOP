@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI / ML Career - CareerCounsellor</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a th:href="@{/}" class="brand-link">🧠 CareerCounsellor</a>
+      <a th:href="@{/}" class="home-link">Home</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h1>AI / Machine Learning Engineer</h1>
+    <p>AI/ML engineers build models that learn from data and put them into production.</p>
+
+    <h2>Key Skills</h2>
+    <ul>
+      <li>Python, NumPy, Pandas</li>
+      <li>Machine Learning basics, supervised & unsupervised learning</li>
+      <li>Deep learning (TensorFlow / PyTorch)</li>
+      <li>Model evaluation & deployment (APIs, Docker)</li>
+    </ul>
+
+    <h2>Recommended Resources</h2>
+    <ul>
+      <li><a href="https://www.learnpython.org/" target="_blank" rel="noopener">Learn Python</a></li>
+      <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="noopener">Andrew Ng - Machine Learning (Coursera)</a></li>
+      <li><a href="https://www.tensorflow.org/tutorials" target="_blank" rel="noopener">TensorFlow Tutorials</a></li>
+      <li><a href="https://www.kaggle.com/learn/overview" target="_blank" rel="noopener">Kaggle Learn</a></li>
+    </ul>
+
+    <h2>Sample Projects</h2>
+    <ol>
+      <li>Binary classification (Iris or custom dataset)</li>
+      <li>Image classifier with transfer learning</li>
+      <li>Deploy a model as a REST API using FastAPI</li>
+    </ol>
+
+    <a th:href="@{/}" class="btn">Back to Home</a>
+  </main>
+</body>
+</html>

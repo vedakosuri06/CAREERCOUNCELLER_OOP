@@ -70,7 +70,27 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                        </div>
+                                
+                                <!-- Chart & share/pdf actions -->
+                                <div class="result-visuals">
+                                    <h3>Score Chart</h3>
+                                    <canvas id="scoresChart" width="600" height="200" aria-label="Scores chart"></canvas>
+
+                                    <div class="share-actions">
+                                        <button id="copyLink" class="action-btn copy-btn" type="button">Copy result link</button>
+                                        <button id="downloadPdf" class="action-btn download-btn" type="button">Download PDF Report</button>
+                                    </div>
+                                </div>
+
+                                <!-- Career description and AI suggestion -->
+                                <div class="career-details">
+                                    <h3>About this Career</h3>
+                                    <p th:utext="${submission?.careerDescription ?: 'No description available.'}">Career description goes here.</p>
+
+                                    <h4>AI Recommendation</h4>
+                                    <p th:utext="${submission?.aiRecommendation ?: 'No recommendation available.'}">Suggested next steps and learning path will appear here.</p>
+                </div>
+            </div>
 
             <!-- Firebase result table (optional) -->
             <div class="all-results" th:if="${allSubmissions != null}">
@@ -95,12 +115,68 @@
                 </table>
             </div>
 
-            <div class="action-buttons">
+                        <div class="action-buttons">
                 <a th:href="@{/#instructions}" class="retake-btn">Take Test Again</a>
                 <a th:href="@{/}" class="home-btn">Back to Home</a>
             </div>
         </div>
     </main>
     
+        <!-- Chart.js + html2canvas + jsPDF for PDF export + share handlers -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            const aCount = /*[[${scores['A']}]]*/ 0;
+            const bCount = /*[[${scores['B']}]]*/ 0;
+            const cCount = /*[[${scores['C']}]]*/ 0;
+            const dCount = /*[[${scores['D']}]]*/ 0;
+
+            // Render Chart.js bar
+            const ctx = document.getElementById('scoresChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['A','B','C','D'],
+                    datasets: [{
+                        label: 'Scores',
+                        data: [aCount, bCount, cCount, dCount],
+                        backgroundColor: ['#6f42c1','#17a2b8','#28a745','#ffc107']
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true, precision: 0 } } }
+            });
+
+            // Animate chart container into view
+            try{ document.querySelector('.result-visuals').classList.add('visible'); }catch(e){}
+
+            // Share / copy link
+            document.getElementById('copyLink').addEventListener('click', async function(){
+                try{ await navigator.clipboard.writeText(window.location.href); alert('Link copied to clipboard'); }
+                catch(e){ alert('Copy failed — please copy the URL manually.'); }
+            });
+
+
+
+            // Download PDF: capture content and the chart
+            document.getElementById('downloadPdf').addEventListener('click', function(){
+                const container = document.querySelector('.results-container');
+                html2canvas(container, {scale:1}).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p','pt','a4');
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save('career-result.pdf');
+                }).catch(err=>{ alert('PDF generation failed: '+err.message); });
+            });
+
+            /*]]>*/
+        </script>
+
 </body>
 </html>

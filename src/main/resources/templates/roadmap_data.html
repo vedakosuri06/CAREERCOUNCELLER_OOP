@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Data Science Roadmap</title>
+  <link rel="stylesheet" href="/css/result.css">
+  <style>
+    .roadmap-wrap{max-width:900px;margin:32px auto;padding:20px}
+    .checklist{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:18px}
+    .project-card{background:linear-gradient(180deg,#fff,#fbf9ff);padding:16px;border-radius:12px;border:1px solid rgba(111,58,182,0.04);margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <header class="header"><nav class="navbar"><div class="nav-left"><a th:href="@{/}" class="brand-link"><span class="brand-icon">📊</span><span class="brand-name">CareerCounsellor</span></a></div><div class="nav-right"><a th:href="@{/roadmap}" class="start-btn">Back</a></div></nav></header>
+  <main class="roadmap-wrap">
+    <h1>Data Science — Interactive Roadmap</h1>
+    <p class="section-subtitle">Hands-on roadmap with small projects.</p>
+    <div class="checklist" id="checklist">
+      <label><input type="checkbox" data-key="python"> Python & pandas</label><br>
+      <label><input type="checkbox" data-key="eda"> Exploratory Data Analysis</label><br>
+      <label><input type="checkbox" data-key="viz"> Data visualization</label><br>
+      <label><input type="checkbox" data-key="modeling"> Modeling basics</label>
+    </div>
+
+    <h2>Starter Projects</h2>
+    <div class="project-card">
+      <h4>1) EDA on a public dataset</h4>
+      <p>Pick a CSV dataset and perform EDA, feature creation and a short report.</p>
+      <a href="#">Open template</a>
+    </div>
+
+    <div class="project-card">
+      <h4>2) Time-series forecasting (starter)</h4>
+      <p>Short project on forecasting and evaluation metrics.</p>
+      <a href="#">Open template</a>
+    </div>
+
+    <p style="color:var(--muted);margin-top:12px">Progress saved locally.</p>
+  </main>
+  <script>
+    (function(){const key='roadmap_data_progress';const inputs=Array.from(document.querySelectorAll('#checklist input[type=checkbox]'));try{const s=JSON.parse(localStorage.getItem(key)||'{}');inputs.forEach(i=>{const k=i.dataset.key;if(s[k])i.checked=true;i.addEventListener('change',()=>{s[k]=i.checked;localStorage.setItem(key,JSON.stringify(s));});});}catch(e){}
+    })();
+  </script>
+</body>
+</html>

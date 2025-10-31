@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Science Career - CareerCounsellor</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a th:href="@{/}" class="brand-link">🧠 CareerCounsellor</a>
+      <a th:href="@{/}" class="home-link">Home</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h1>Data Science / Analytics</h1>
+    <p>Data professionals analyze data to derive insights and support decisions.</p>
+
+    <h2>Key Skills</h2>
+    <ul>
+      <li>SQL, Pandas</li>
+      <li>Statistics and hypothesis testing</li>
+      <li>Data visualization (Matplotlib, Seaborn, Tableau)</li>
+      <li>Basic machine learning</li>
+    </ul>
+
+    <h2>Recommended Resources</h2>
+    <ul>
+      <li><a href="https://www.codecademy.com/learn/learn-sql" target="_blank" rel="noopener">Codecademy - SQL</a></li>
+      <li><a href="https://www.kaggle.com/learn/overview" target="_blank" rel="noopener">Kaggle Learn</a></li>
+      <li><a href="https://www.coursera.org/specializations/jhu-data-science" target="_blank" rel="noopener">Johns Hopkins Data Science</a></li>
+    </ul>
+
+    <h2>Sample Projects</h2>
+    <ol>
+      <li>EDA and visualization of a public dataset</li>
+      <li>Build a dashboard with Power BI or Tableau</li>
+      <li>Small predictive model and report findings</li>
+    </ol>
+
+    <a th:href="@{/}" class="btn">Back to Home</a>
+  </main>
+</body>
+</html>

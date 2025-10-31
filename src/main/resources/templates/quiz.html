@@ -65,6 +65,14 @@
       const userModal = document.getElementById('userModal');
       const userForm = document.getElementById('userForm');
       const quizSection = document.querySelector('.quiz-section');
+
+      // If the modal markup was removed or not present, avoid JS errors
+      // and reveal the quiz immediately so the page isn't blank.
+      if(!userModal){
+        if(quizSection) quizSection.style.display = 'block';
+        // Nothing else to do — exit early
+        return;
+      }
       const hidName = document.getElementById('hid_name');
       const hidEmail = document.getElementById('hid_email');
       const hidRoll = document.getElementById('hid_rollNo');
@@ -182,22 +190,6 @@
     </nav>
   </header>
 
-  <!-- User info modal -->
-  <!-- modal hidden by default; script will show it when needed -->
-  <div id="userModal" class="modal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h2 id="modalTitle">Tell us about yourself</h2>
-      <form id="userForm">
-        <div class="field"><label>Full name: <input type="text" id="userName" name="name" required></label></div>
-        <div class="field"><label>Email: <input type="email" id="userEmail" name="email" required></label></div>
-        <div class="field"><label>Roll No: <input type="text" id="userRoll" name="rollNo" required></label></div>
-        <div class="modal-actions">
-          <button type="submit" class="start-btn">Start Quiz</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <noscript>
     <div style="max-width:600px;margin:20px auto;padding:16px;background:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.06);">
       <strong>JavaScript is required</strong> — please enable JavaScript to take the quiz. The form may not behave correctly without it.
@@ -212,6 +204,11 @@
       <input type="hidden" name="rollNo" id="hid_rollNo">
 
       <div class="quiz-card">
+            <!-- Progress bar: updated by JS to reflect current question / total -->
+            <div class="progress-wrap" aria-hidden="false">
+              <div class="progress-label">Question <span id="progressCurrent">1</span> of <span id="progressTotal">10</span></div>
+              <div class="progress"><div id="progressBar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
+            </div>
         <span class="question-number">Question 1</span>
         <p class="question-text">What excites you most?</p>
 
@@ -231,5 +228,39 @@
       <p>&copy; 2024 Career Counsellor. All rights reserved.</p>
     </footer>
   </div>
-</body>
+  <script>
+    (function(){
+      // Basic progress bar support: infer current question from path (q1,q2,..q10)
+      const total = 10; // adjust if quiz length changes
+      const progressTotalEl = document.getElementById('progressTotal');
+      const progressCurrentEl = document.getElementById('progressCurrent');
+      const progressBar = document.getElementById('progressBar');
+
+      function inferCurrent(){
+        try{
+          const p = window.location.pathname || '';
+          const m = p.match(/q(\d+)\.html$|/); // fallback for static files
+          let cur = 1;
+          // try patterns like /q2 or /q2.html or /quiz?q=2
+          const m2 = p.match(/q(\d+)($|\\.|\/)/i);
+          if(m2 && m2[1]) cur = parseInt(m2[1],10);
+          // also check query param ?q=2
+          const params = new URLSearchParams(window.location.search);
+          if(params.get('q')) cur = parseInt(params.get('q'),10) || cur;
+          if(cur<1) cur=1; if(cur>total) cur=total;
+          return cur;
+        }catch(e){return 1}
+      }
+
+      const current = inferCurrent();
+      if(progressTotalEl) progressTotalEl.textContent = total;
+      if(progressCurrentEl) progressCurrentEl.textContent = current;
+      if(progressBar) {
+        const pct = Math.round((current/total)*100);
+        progressBar.style.width = pct + '%';
+        progressBar.setAttribute('aria-valuenow', String(pct));
+      }
+    })();
+  </script>
+  </body>
 </html>

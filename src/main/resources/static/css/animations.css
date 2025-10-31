@@ -1,0 +1,52 @@
+/* Global animations for site-wide subtle motion */
+:root{
+  --anim-ease: cubic-bezier(.2,.9,.2,1);
+  --accent: #6c63ff;
+}
+
+/* utility classes */
+.animated{opacity:0;transform:none;will-change:transform,opacity;}
+.animate-fade-up{animation:fadeUp .6s var(--anim-ease) forwards}
+.animate-fade-in{animation:fadeIn .5s var(--anim-ease) forwards}
+.animate-zoom-in{animation:zoomIn .55s var(--anim-ease) forwards}
+.animate-float{animation:floaty 3s ease-in-out infinite}
+
+/* stagger helper - children will be animated with increasing delays */
+.stagger > *{opacity:0;transform:translateY(8px)}
+.stagger.animate-stagger > *{animation:fadeUp .55s var(--anim-ease) forwards}
+.stagger.animate-stagger > *:nth-child(1){animation-delay:.05s}
+.stagger.animate-stagger > *:nth-child(2){animation-delay:.12s}
+.stagger.animate-stagger > *:nth-child(3){animation-delay:.18s}
+.stagger.animate-stagger > *:nth-child(4){animation-delay:.24s}
+.stagger.animate-stagger > *:nth-child(5){animation-delay:.30s}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes zoomIn{
+  from{opacity:0; transform:scale(.98)}
+  to{opacity:1; transform:scale(1)}
+}
+
+@keyframes floaty{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
+}
+
+/* small helpers to make CTAs pop */
+.cta-button{transition:transform .18s var(--anim-ease), box-shadow .18s var(--anim-ease)}
+.cta-button:hover{transform:translateY(-3px); box-shadow:0 6px 18px rgba(108,99,255,.12)}
+
+/* keep animations accessible - reduce motion preference */
+@media (prefers-reduced-motion: reduce){
+  .animate-fade-up, .animate-fade-in, .animate-zoom-in, .stagger.animate-stagger > *{animation:none!important;opacity:1!important;transform:none!important}
+  .animate-float{animation:none!important}
+}

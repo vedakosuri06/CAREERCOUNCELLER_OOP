@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Career Roadmaps - CareerCounsellor</title>
+  <link rel="stylesheet" href="/css/result.css">
+  <style>
+    .roadmap-list{max-width:900px;margin:36px auto;padding:20px}
+    .roadmap-card{background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)}
+    .roadmap-card a{font-weight:700;color:var(--primary);text-decoration:none}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <a th:href="@{/}" class="brand-link">
+          <span class="brand-icon">🧭</span>
+          <span class="brand-name">CareerCounsellor</span>
+        </a>
+      </div>
+      <div class="nav-right"><a th:href="@{/}" class="start-btn">Home</a></div>
+    </nav>
+  </header>
+
+  <main class="roadmap-list">
+    <h1>Roadmaps & Starter Projects</h1>
+    <p class="section-subtitle">Choose a career to view an interactive learning roadmap and starter projects.</p>
+
+    <div class="roadmap-card">
+      <div>
+        <div style="font-weight:800">Artificial Intelligence / Machine Learning</div>
+        <div style="color:var(--muted);font-size:14px">Algorithms, ML models, and practical projects</div>
+      </div>
+      <div><a th:href="@{/roadmap_ai}">View roadmap →</a></div>
+    </div>
+
+    <div class="roadmap-card">
+      <div>
+        <div style="font-weight:800">Data Science / Analytics</div>
+        <div style="color:var(--muted);font-size:14px">EDA, modeling and communication</div>
+      </div>
+      <div><a th:href="@{/roadmap_data}">View roadmap →</a></div>
+    </div>
+
+    <div class="roadmap-card">
+      <div>
+        <div style="font-weight:800">Backend / Software Development</div>
+        <div style="color:var(--muted);font-size:14px">Systems, APIs and scale</div>
+      </div>
+      <div><a th:href="@{/roadmap_backend}">View roadmap →</a></div>
+    </div>
+
+    <div class="roadmap-card">
+      <div>
+        <div style="font-weight:800">Research / Academia</div>
+        <div style="color:var(--muted);font-size:14px">Theory, publications and experiments</div>
+      </div>
+      <div><a th:href="@{/roadmap_research}">View roadmap →</a></div>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -1,62 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAREER COUNSELLOR</title>
-    <link rel="stylesheet" href="/css/quiz.css">
-    <script src="/js/script.js"></script>
+  <link rel="stylesheet" href="/css/quiz.css">
+  <script src="/js/script.js"></script>
 </head>
 <body>
     
-     <header class="header">
-        <nav class="navbar">
-            <div class="nav-left">
-            <a th:href="@{/}" class="brand-link">
-                    <span class="brand-icon">🧠</span>
-                    <span class="brand-name">CareerCounsellor</span>
-                </a>
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+  
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CAREER COUNSELLOR</title>
+      <link rel="stylesheet" href="/css/quiz.css">
+      <script src="/js/script.js"></script>
+    </head>
+    <body>
+    
+        <header class="header">
+            <nav class="navbar">
+                <div class="nav-left">
+                <a th:href="@{/}" class="brand-link">
+                        <span class="brand-icon">🧠</span>
+                        <span class="brand-name">CareerCounsellor</span>
+                    </a>
 
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-menu">
+                        <li><a th:href="@{/}">Home</a></li>
+                    </ul>
+                    <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
+                </div>
+            </nav>
+        </header>
+         <div class="quiz-card">
+            <!-- Progress bar -->
+            <div class="progress-wrap">
+              <div class="progress-label">Question <span id="progressCurrent">9</span> of <span id="progressTotal">10</span></div>
+              <div class="progress"><div id="progressBar" class="progress-bar" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
             </div>
-            <div class="nav-right">
-                <ul class="nav-menu">
-                    <li><a th:href="@{/}">Home</a></li>
-                </ul>
-                <a th:href="@{/#instructions}" class="start-btn">START TEST</a>
-            </div>
-        </nav>
-    </header>
-     <div class="quiz-card">
-    <span class="question-number">Question 9</span>
-    <p class="question-text"> You would prefer to attend a workshop on:</p>
+        <span class="question-number">Question 9</span>
+        <p class="question-text"> You would prefer to attend a workshop on:</p>
 
-    <div class="options">
-      <label class="option">
-        <input type="radio" name="q9" value="A">
-        <span>A.Advanced Deep Learning</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q9" value="B">
-        <span>B.Power BI and Dashboard Design</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q9" value="C">
-        <span>C.Backend Development with FastAPI</span>
-      </label>
-      <label class="option">
-        <input type="radio" name="q9" value="D">
-        <span>D.Research Methodology and Ethics</span>
-      </label>
-      <a th:href="@{/q10}">
-    <button class="next">NEXT</button>
+        <div class="options">
+          <label class="option">
+            <input type="radio" name="q9" value="A">
+            <span>A.Advanced Deep Learning</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="q9" value="B">
+            <span>B.Power BI and Dashboard Design</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="q9" value="C">
+            <span>C.Backend Development with FastAPI</span>
+          </label>
+          <label class="option">
+            <input type="radio" name="q9" value="D">
+            <span>D.Research Methodology and Ethics</span>
+          </label>
+          <a th:href="@{/q10}">
+            <button class="next">NEXT</button>
+          </a>
+        </div>
+      </div>
+
+      <script>
+        (function(){
+          const total = 10;
+          const qEl = document.querySelector('.question-number');
+          let cur = 1;
+          if(qEl) {
+            const m = qEl.textContent.match(/(\d+)/);
+            if(m) cur = parseInt(m[1],10);
+          }
+          const pct = Math.round((cur/total)*100);
+          const bar = document.getElementById('progressBar');
+          const curEl = document.getElementById('progressCurrent');
+          const totEl = document.getElementById('progressTotal');
+          if(curEl) curEl.textContent = cur;
+          if(totEl) totEl.textContent = total;
+          if(bar){ bar.style.width = pct + '%'; bar.setAttribute('aria-valuenow', String(pct)); }
+        })();
+      </script>
+
+
+    </body>
+    </html>
+    
 </a>
     </div>
   </div>
   
 
 
-</body>
+  </body>
 </html>
 
     

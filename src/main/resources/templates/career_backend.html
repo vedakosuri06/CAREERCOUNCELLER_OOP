@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Backend Developer - CareerCounsellor</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a th:href="@{/}" class="brand-link">🧠 CareerCounsellor</a>
+      <a th:href="@{/}" class="home-link">Home</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <h1>Backend / Software Development</h1>
+    <p>Backend developers design and build server-side systems and APIs.</p>
+
+    <h2>Key Skills</h2>
+    <ul>
+      <li>Java, Spring Boot (or Node.js/Express)</li>
+      <li>Databases (SQL/NoSQL)</li>
+      <li>REST API design and authentication</li>
+      <li>System design and scalability</li>
+    </ul>
+
+    <h2>Recommended Resources</h2>
+    <ul>
+      <li><a href="https://spring.io/guides/gs/spring-boot/" target="_blank" rel="noopener">Spring Getting Started</a></li>
+      <li><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">System Design Primer</a></li>
+      <li><a href="https://www.freecodecamp.org/news/rest-api-design-best-practices/" target="_blank" rel="noopener">REST API best practices</a></li>
+    </ul>
+
+    <h2>Sample Projects</h2>
+    <ol>
+      <li>REST API for a todo app with authentication</li>
+      <li>Design a microservice and deploy with Docker</li>
+      <li>Implement pagination, caching and metrics</li>
+    </ol>
+
+    <a th:href="@{/}" class="btn">Back to Home</a>
+  </main>
+</body>
+</html>

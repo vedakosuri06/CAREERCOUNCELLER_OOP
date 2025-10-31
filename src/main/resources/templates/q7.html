@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAREER COUNSELLOR</title>
-    <link rel="stylesheet" href="/css/quiz.css">
-    <script src="/js/script.js"></script>
+  <link rel="stylesheet" href="/css/quiz.css">
+  <script src="/js/script.js"></script>
 </head>
 <body>
     
@@ -28,6 +28,11 @@
         </nav>
     </header>
      <div class="quiz-card">
+        <!-- Progress bar -->
+        <div class="progress-wrap">
+          <div class="progress-label">Question <span id="progressCurrent">7</span> of <span id="progressTotal">10</span></div>
+          <div class="progress"><div id="progressBar" class="progress-bar" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
+        </div>
     <span class="question-number">Question 7</span>
     <p class="question-text">Your coding strength is in:</p>
 
@@ -53,10 +58,27 @@
 </a>
     </div>
   </div>
-  
 
+  <script>
+    (function(){
+      const total = 10;
+      const qEl = document.querySelector('.question-number');
+      let cur = 1;
+      if(qEl) {
+        const m = qEl.textContent.match(/(\d+)/);
+        if(m) cur = parseInt(m[1],10);
+      }
+      const pct = Math.round((cur/total)*100);
+      const bar = document.getElementById('progressBar');
+      const curEl = document.getElementById('progressCurrent');
+      const totEl = document.getElementById('progressTotal');
+      if(curEl) curEl.textContent = cur;
+      if(totEl) totEl.textContent = total;
+      if(bar){ bar.style.width = pct + '%'; bar.setAttribute('aria-valuenow', String(pct)); }
+    })();
+  </script>
 
-</body>
+  </body>
 </html>
 
     

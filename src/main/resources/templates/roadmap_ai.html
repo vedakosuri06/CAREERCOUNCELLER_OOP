@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI / ML Roadmap</title>
+  <link rel="stylesheet" href="/css/result.css">
+  <style>
+    .roadmap-wrap{max-width:900px;margin:32px auto;padding:20px}
+    .checklist{background:#fff;padding:18px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:18px}
+    .project-card{background:linear-gradient(180deg,#fff,#fbf9ff);padding:16px;border-radius:12px;border:1px solid rgba(111,58,182,0.04);margin-bottom:12px}
+    .project-card a{color:var(--primary);font-weight:700}
+  </style>
+</head>
+<body>
+  <header class="header"><nav class="navbar"><div class="nav-left"><a th:href="@{/}" class="brand-link"><span class="brand-icon">🤖</span><span class="brand-name">CareerCounsellor</span></a></div><div class="nav-right"><a th:href="@{/roadmap}" class="start-btn">Back</a></div></nav></header>
+
+  <main class="roadmap-wrap">
+    <h1>AI / ML — Interactive Roadmap</h1>
+    <p class="section-subtitle">A short, actionable learning path with starter projects.</p>
+
+    <div class="checklist" id="checklist">
+      <h3>Foundations</h3>
+      <label><input type="checkbox" data-key="linear_algebra"> Linear Algebra basics (3–4 hours)</label><br>
+      <label><input type="checkbox" data-key="probability"> Probability & Statistics essentials</label><br>
+      <label><input type="checkbox" data-key="python"> Python for Data Science</label>
+
+      <h3 style="margin-top:12px">Core Skills</h3>
+      <label><input type="checkbox" data-key="ml_basics"> ML algorithms & scikit-learn</label><br>
+      <label><input type="checkbox" data-key="deep_learning"> Deep Learning intro (TensorFlow/PyTorch)</label><br>
+      <label><input type="checkbox" data-key="model_eval"> Model evaluation & deployment</label>
+    </div>
+
+    <h2>Starter Projects</h2>
+    <div class="project-card">
+      <h4>1) Binary Image Classifier</h4>
+      <p>Train a small CNN on a toy dataset (cats vs dogs subset). Expected outcome: understanding data pipeline, training loop, and basic augmentation.</p>
+      <a href="#" target="_blank">Open project template</a>
+    </div>
+
+    <div class="project-card">
+      <h4>2) Titanic Survival Predictor</h4>
+      <p>Classic Kaggle-style project focusing on EDA and simple models. Expected outcome: feature engineering and baseline modeling.</p>
+      <a href="#" target="_blank">Open project template</a>
+    </div>
+
+    <div class="project-card">
+      <h4>3) Small NLP classifier</h4>
+      <p>Sentiment analysis using a small transformer or RNN. Expected outcome: tokenization and transfer learning.</p>
+      <a href="#" target="_blank">Open project template</a>
+    </div>
+
+    <p style="margin-top:18px;color:var(--muted)">Your checklist progress is saved to this browser (localStorage).</p>
+  </main>
+
+  <script>
+    // Persist checklist state to localStorage
+    (function(){
+      const key = 'roadmap_ai_progress';
+      const inputs = Array.from(document.querySelectorAll('#checklist input[type=checkbox]'));
+      // load
+      try{
+        const saved = JSON.parse(localStorage.getItem(key) || '{}');
+        inputs.forEach(i=>{
+          const k = i.dataset.key; if(saved[k]) i.checked = true;
+          i.addEventListener('change', ()=>{
+            saved[k] = i.checked; localStorage.setItem(key, JSON.stringify(saved));
+          });
+        });
+      }catch(e){ /* ignore */ }
+    })();
+  </script>
+</body>
+</html>
