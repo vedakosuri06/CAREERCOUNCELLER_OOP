@@ -15,6 +15,7 @@ public class HomeController {
     public String beginAssign() {
         return "beginassign"; // renders beginassign.html
     }
+    
 
     @GetMapping("/q1")
     public String question1() {

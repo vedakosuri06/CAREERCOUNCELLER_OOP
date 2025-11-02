@@ -60,6 +60,12 @@ public class PageController {
         return "q10"; // renders q10.html
     }
 
+    @GetMapping("/q11")
+    public String question11() {
+        return "q11"; // renders q11.html
+    }
+    
+
     @GetMapping("/about")
     public String about() {
         return "about"; // renders about.html
